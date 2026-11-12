@@ -64,8 +64,12 @@ button {
   flex-direction: column;
   padding: 22px 16px;
   transition:
-    transform 0.3s ease,
-    width 0.3s ease;
+    margin-left 0.3s ease,
+    transform 0.3s ease;
+}
+
+.sidebar:not(.sidebar-open) {
+  margin-left: -270px;
 }
 
 .sidebar-header {
@@ -526,17 +530,20 @@ button {
 /* RESPONSIVE */
 
 @media (max-width: 768px) {
-  .sidebar {
-    position: fixed;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    transform: translateX(-100%);
-    box-shadow: 15px 0 40px rgba(0, 0, 0, 0.45);
-  }
+  @media (max-width: 768px) {
+    .sidebar {
+      position: fixed;
+      z-index: 10;
+      top: 0;
+      left: 0;
+      margin-left: 0;
+      transform: translateX(-100%);
+      box-shadow: 15px 0 40px rgba(0, 0, 0, 0.45);
+    }
 
-  .sidebar.sidebar-open {
-    transform: translateX(0);
+    .sidebar.sidebar-open {
+      transform: translateX(0);
+    }
   }
 
   .chat-header {

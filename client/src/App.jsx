@@ -9,25 +9,36 @@ function App() {
 
   const handleNewChat = () => {
     setMessages([]);
+    setSidebarOpen(true);
   };
 
-  const handleSendMessage = (text) => {
-    if (!text.trim()) return;
-
-    setMessages((prev) => [
-      ...prev,
-      { id: Date.now(), role: "user", content: text },
-    ]);
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => !prev);
   };
 
   return (
     <div className="app">
-      <Sidebar isOpen={sidebarOpen} onNewChat={handleNewChat} />
+      <Sidebar
+        isOpen={sidebarOpen}
+        onNewChat={handleNewChat}
+        onClose={() => setSidebarOpen(false)}
+      />
 
       <ChatWindow
         messages={messages}
-        onSendMessage={handleSendMessage}
-        toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        onSendMessage={(text) => {
+          if (!text.trim()) return;
+
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: Date.now(),
+              role: "user",
+              content: text,
+            },
+          ]);
+        }}
+        toggleSidebar={toggleSidebar}
       />
     </div>
   );

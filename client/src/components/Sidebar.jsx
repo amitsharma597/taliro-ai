@@ -1,13 +1,18 @@
 import { Plus, PanelLeftClose, MessageSquare, Settings } from "lucide-react";
 
-function Sidebar({ isOpen, onNewChat }) {
+function Sidebar({ isOpen, onNewChat, onClose }) {
   return (
     <aside className={`sidebar ${isOpen ? "sidebar-open" : ""}`}>
       <div className="sidebar-header">
         <h2 className="logo">
           Taliro<span>.</span>
         </h2>
-        <button className="icon-button" aria-label="Close sidebar">
+
+        <button
+          className="icon-button"
+          onClick={onClose}
+          aria-label="Close sidebar"
+        >
           <PanelLeftClose size={18} />
         </button>
       </div>
@@ -30,10 +35,12 @@ function Sidebar({ isOpen, onNewChat }) {
       <div className="sidebar-footer">
         <div className="profile">
           <div className="profile-avatar">A</div>
+
           <div className="profile-info">
             <h4>Amit Sharma</h4>
             <p>Free Plan</p>
           </div>
+
           <Settings size={17} color="#71717a" />
         </div>
       </div>
