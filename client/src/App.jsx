@@ -1,11 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import ChatWindow from "./components/ChatWindow";
+import { checkServerHealth } from "./services/api";
 import "./index.css";
 
 function App() {
   const [messages, setMessages] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  useEffect(() => {
+    const connectBackend = async () => {
+      try {
+        const data = await checkServerHealth();
+        console.log(data.message);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    connectBackend();
+  }, []);
 
   const handleNewChat = () => {
     setMessages([]);
@@ -14,6 +28,19 @@ function App() {
 
   const toggleSidebar = () => {
     setSidebarOpen((prev) => !prev);
+  };
+
+  const handleSendMessage = (text) => {
+    if (!text.trim()) return;
+
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        role: "user",
+        content: text,
+      },
+    ]);
   };
 
   return (
@@ -26,18 +53,7 @@ function App() {
 
       <ChatWindow
         messages={messages}
-        onSendMessage={(text) => {
-          if (!text.trim()) return;
-
-          setMessages((prev) => [
-            ...prev,
-            {
-              id: Date.now(),
-              role: "user",
-              content: text,
-            },
-          ]);
-        }}
+        onSendMessage={handleSendMessage}
         toggleSidebar={toggleSidebar}
       />
     </div>
