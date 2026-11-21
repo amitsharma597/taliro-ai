@@ -2,7 +2,7 @@ import { Sparkles, Menu } from "lucide-react";
 import ChatInput from "./ChatInput";
 import Message from "./Message";
 
-function ChatWindow({ messages, onSendMessage, toggleSidebar }) {
+function ChatWindow({ messages, onSendMessage, toggleSidebar, loading }) {
   const suggestions = [
     {
       title: "Write some code",
@@ -33,6 +33,7 @@ function ChatWindow({ messages, onSendMessage, toggleSidebar }) {
           >
             <Menu size={19} />
           </button>
+
           <h3>New Conversation</h3>
         </div>
 
@@ -49,6 +50,7 @@ function ChatWindow({ messages, onSendMessage, toggleSidebar }) {
             <h1>
               What can I help you <span>with?</span>
             </h1>
+
             <p>
               Welcome to Taliro. Your space to think, explore,
               <br />
@@ -63,6 +65,7 @@ function ChatWindow({ messages, onSendMessage, toggleSidebar }) {
                   onClick={() =>
                     onSendMessage(item.title + ": " + item.description)
                   }
+                  disabled={loading}
                 >
                   <h4>{item.title}</h4>
                   <p>{item.description}</p>
@@ -75,11 +78,19 @@ function ChatWindow({ messages, onSendMessage, toggleSidebar }) {
             {messages.map((message) => (
               <Message key={message.id} message={message} />
             ))}
+
+            {loading && (
+              <div className="thinking-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            )}
           </div>
         )}
       </section>
 
-      <ChatInput onSendMessage={onSendMessage} />
+      <ChatInput onSendMessage={onSendMessage} loading={loading} />
     </main>
   );
 }

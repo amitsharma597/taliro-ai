@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { ArrowUp } from "lucide-react";
+import { ArrowUp, LoaderCircle } from "lucide-react";
 
-function ChatInput({ onSendMessage }) {
+function ChatInput({ onSendMessage, loading }) {
   const [input, setInput] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!input.trim()) return;
+    if (!input.trim() || loading) return;
 
     onSendMessage(input);
     setInput("");
@@ -17,7 +17,7 @@ function ChatInput({ onSendMessage }) {
     <div className="input-area">
       <form className="chat-form" onSubmit={handleSubmit}>
         <textarea
-          placeholder="Message Taliro..."
+          placeholder={loading ? "Taliro is thinking..." : "Message Taliro..."}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => {
@@ -27,15 +27,20 @@ function ChatInput({ onSendMessage }) {
             }
           }}
           rows={1}
+          disabled={loading}
         />
 
         <button
           type="submit"
           className="send-button"
-          disabled={!input.trim()}
+          disabled={!input.trim() || loading}
           aria-label="Send message"
         >
-          <ArrowUp size={19} />
+          {loading ? (
+            <LoaderCircle size={19} className="spin" />
+          ) : (
+            <ArrowUp size={19} />
+          )}
         </button>
       </form>
 
